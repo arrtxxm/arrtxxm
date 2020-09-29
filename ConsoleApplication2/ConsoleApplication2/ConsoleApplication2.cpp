@@ -2,6 +2,81 @@
 //
 
 #include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
+struct pipe {
+	int id;
+	double length;
+	int diameter;
+	bool repair_status;
+};
+struct compressor {
+	int id;
+	string Name;
+	int number_workshops;
+	int number_inwork;
+	double efficiency;
+};
+pipe create_pipe() {
+	pipe new_pipe;
+	cout << "Enter diameter" << endl;
+	cin >> new_pipe.diameter;
+	cout << "Enter length" << endl;
+	cin >> new_pipe.length;
+	new_pipe.repair_status = false;
+	new_pipe.id = -1;
+	return new_pipe;
+}
+compressor create_compressor() {
+	compressor new_compressor;
+	cout << "Enter name" << endl;
+	cin >> new_compressor.Name;
+	cout << "Enter number of workshops" << endl;
+	cin >> new_compressor.number_workshops;
+	cout << "Enter number of working workshops" << endl;
+	cin >> new_compressor.number_inwork;
+	cout << "Enter efficiency" << endl;
+	cin >> new_compressor.efficiency;
+	return new_compressor;
+}
+void write_pipe_info(pipe p) {
+	cout << "Diameter " << p.diameter << endl;
+	cout << "Length " << p.length << endl;
+	cout << "id " << p.id << endl;
+	cout << (p.repair_status ? "Under repair" : "Not in repair") << endl;
+}
+void write_compressor_info(compressor comp) {
+	cout << "Name: " << comp.Name << endl;
+	cout << "Number of workshops: " << comp.number_workshops << endl;
+	cout << "Number of working workshops: " << comp.number_inwork << endl;
+	cout << "Efficiency: " << comp.efficiency << endl;
+}
+void change_status(bool& status) {
+	status = !status;
+}
+
+void save_to_file(pipe p) {
+	ofstream fout;
+	fout.open("f.txt", ios::out);
+	if (fout.is_open()) {
+		fout << p.id << endl << p.diameter << endl << p.length << endl << p.repair_status;
+		fout.close();
+	}
+}
+
+pipe load_from_file() {
+	ifstream fin;
+	fin.open("f.txt", ios::in);
+	pipe p;
+	if (fin.is_open()) {
+		fin >> p.id;
+		fin >> p.diameter;
+		fin >> p.length;
+		fin >> p.repair_status;
+		return p;
+	}
+}
 
 int main()
 {
